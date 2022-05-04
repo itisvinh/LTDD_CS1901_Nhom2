@@ -11,17 +11,17 @@
         app:cnb_textColor="#553280"
         />
     <item
-        android:id="@+id/activity"
+        android:id="@+id/menu_item_reports"
         android:icon="@drawable/ic_menu_wallet"
-        android:title="Activity"
+        android:title="REPORTS"
         app:cnb_iconColor="#B39E12"
         app:cnb_backgroundColor="#3BFEE440"
         app:cnb_textColor="#6A601B"
         />
     <item
-        android:id="@+id/favorites"
+        android:id="@+id/menu_item_planning"
         android:icon="@drawable/ic_menu_wallet"
-        android:title="Favorites"
+        android:title="PLANNING"
         app:cnb_iconColor="#3478E4"
         app:cnb_backgroundColor="#333478E4"
         app:cnb_textColor="#25529A"/>

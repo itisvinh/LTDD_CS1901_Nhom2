@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#dee2e6</color>
+    <color name="wallet_name">#711616</color>
 </resources>

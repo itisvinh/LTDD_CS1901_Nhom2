@@ -26,4 +26,6 @@
         app:cnb_iconSize="28dp"
         app:cnb_menuResource="@menu/bottom_menu" />
 
+
+
 </RelativeLayout>
