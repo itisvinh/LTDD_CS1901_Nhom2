@@ -5,15 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.WalletFragment"
-    android:background="@color/purple_700">
+    android:background="@color/background">
 
-
-    <View
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/ic_picture1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"

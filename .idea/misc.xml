@@ -11,7 +11,9 @@
         <entry key="..\:/Mobile Projects/InfinitePocket/app/src/main/res/menu/bottom_menu.xml" value="0.25885416666666666" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/bottom_left_curved_corner.xml" value="0.2555" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/curved_aux_view_action_bar.xml" value="0.1915" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_drop_down_filled.xml" value="0.1475" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_picture1.xml" value="0.1915" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/inner_curved_shape.xml" value="0.1475" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/month_year_picker_button.xml" value="0.1185" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/saca.xml" value="0.1915" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -19,7 +21,7 @@
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_reports.xml" value="0.1" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_tab_item_content.xml" value="0.20512820512820512" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_top.xml" value="0.264" />
-        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_top_frame.xml" value="0.161231884057971" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_top_frame.xml" value="0.264" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_wallet.xml" value="0.22826086956521738" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
       </map>
