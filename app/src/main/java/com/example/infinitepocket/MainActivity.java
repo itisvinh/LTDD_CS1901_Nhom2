@@ -2,23 +2,25 @@ package com.example.infinitepocket;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.RelativeLayout;
 
 import com.example.infinitepocket.fragments.FragmentFactory;
-import com.example.infinitepocket.fragments.TopFrameFragment;
-import com.example.infinitepocket.fragments.tools.FragmentReplacer;
+import com.example.infinitepocket.fragments.tools.FragmentHelper;
 import com.example.infinitepocket.utilities.CustomizedToast;
+import com.example.infinitepocket.viewmodels.MainViewModel;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
+    private MainViewModel mainViewModel;
     ChipNavigationBar bottomMenu;
     boolean doubleBackToExitPressedOnce = false;
     boolean topFrameChangeRequired = true;
+    Fragment prevBottomFragment = null;
 
     // PRESS THE BACK BUTTON TWICE TO EXIT
     @Override
@@ -39,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         //replaceFragment(R.id.main_frame, FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT));
-
+        addingFragments();
+        prevBottomFragment = FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT);
         ini();
         setListeners();
         bottomMenu.setItemSelected(R.id.menu_item_wallet, true);
-
     }
 
 
@@ -54,10 +57,21 @@ public class MainActivity extends AppCompatActivity {
         bottomMenu = findViewById(R.id.bottomMenu);
     }
 
+    private void addingFragments() {
+        FragmentHelper.add(this, R.id.main_frame, FragmentFactory.get(FragmentFactory.ABOUT_FRAGMENT));
+        FragmentHelper.add(this, R.id.main_frame, FragmentFactory.get(FragmentFactory.TOP_FRAME_FRAGMENT));
+        FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT));
+        FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.REPORTS_FRAGMENT));
+        FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.PLANNING_FRAGMENT));
+    }
+
     private void changeTopFrame() {
         if (topFrameChangeRequired) {
+            Fragment aboutFragment = FragmentFactory.get(FragmentFactory.ABOUT_FRAGMENT);
+            FragmentHelper.hide(this, aboutFragment);
             Fragment topFrameFragment = FragmentFactory.get(FragmentFactory.TOP_FRAME_FRAGMENT);
-            FragmentReplacer.replace(this, R.id.main_frame, topFrameFragment);
+            //FragmentHelper.replace(this, R.id.main_frame, topFrameFragment);
+            FragmentHelper.show(this, topFrameFragment);
         }
         topFrameChangeRequired = false;
     }
@@ -70,36 +84,47 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.menu_item_wallet:
                     changeTopFrame();
                     Fragment walletFragment = FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT);
-                    FragmentReplacer.replace(this, R.id.bottom_container, walletFragment);
+                    if (prevBottomFragment != walletFragment) {
+                        FragmentHelper.hide(this, prevBottomFragment);
+                        prevBottomFragment = walletFragment;
+                    }
+                    FragmentHelper.show(this, walletFragment);
                     break;
 
                 case R.id.menu_item_reports:
                     changeTopFrame();
                     Fragment reportsFragment = FragmentFactory.get(FragmentFactory.REPORTS_FRAGMENT);
-                    FragmentReplacer.replace(this, R.id.bottom_container, reportsFragment);
+                    if (prevBottomFragment != reportsFragment) {
+                        FragmentHelper.hide(this, prevBottomFragment);
+                        prevBottomFragment = reportsFragment;
+                    }
+                    FragmentHelper.show(this, reportsFragment);
                     break;
 
                 case R.id.menu_item_planning:
                     changeTopFrame();
                     Fragment planningFragment = FragmentFactory.get(FragmentFactory.PLANNING_FRAGMENT);
-                    FragmentReplacer.replace(this, R.id.bottom_container, planningFragment);
+                    if (prevBottomFragment != planningFragment) {
+                        FragmentHelper.hide(this, prevBottomFragment);
+                        prevBottomFragment = planningFragment;
+                    }
+                    FragmentHelper.show(this, planningFragment);
                     break;
 
                 case R.id.menu_item_about:
                     Fragment aboutFragment = FragmentFactory.get(FragmentFactory.ABOUT_FRAGMENT);
-                    FragmentReplacer.replace(this, R.id.main_frame, aboutFragment);
+                    Fragment topFrameFragment = FragmentFactory.get(FragmentFactory.TOP_FRAME_FRAGMENT);
+                    FragmentHelper.hide(this, prevBottomFragment);
+                    FragmentHelper.hide(this, topFrameFragment);
+                    FragmentHelper.show(this, aboutFragment);
                     topFrameChangeRequired = true;
                     getWindow().setStatusBarColor(Color.parseColor("#234C09"));
                     break;
             }
-//            if (fragment != null)
-//                replaceFragment(R.id.main_frame, fragment);
+
 
         });
 
-        getFragmentManager().addOnBackStackChangedListener( () -> {
-
-        });
     }
 
 
