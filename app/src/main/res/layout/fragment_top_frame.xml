@@ -95,7 +95,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_monetary_unit"
+                    android:id="@+id/tv_monetary_unit_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"

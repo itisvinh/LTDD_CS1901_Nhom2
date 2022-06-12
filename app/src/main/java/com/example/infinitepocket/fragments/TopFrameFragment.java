@@ -18,8 +18,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.infinitepocket.Communicator;
 import com.example.infinitepocket.MainActivity;
 import com.example.infinitepocket.R;
 import com.example.infinitepocket.viewmodels.MainViewModel;
@@ -31,7 +33,13 @@ import java.util.HashMap;
 public class TopFrameFragment extends Fragment {
     Button datePicker;
     Button displayAll;
+    TextView wallet_name;
+    TextView wallet_balance;
+    TextView monetary_unit_1;
+    TextView monetary_unit_2;
     int currentButtonId;
+
+    Communicator communicator = Communicator.getInstance();
 
 
     public TopFrameFragment() {
@@ -44,11 +52,31 @@ public class TopFrameFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    private void ini(View view) {
+        datePicker = view.findViewById(R.id.date_picker);
+        displayAll = view.findViewById(R.id.display_all);
+        wallet_name = view.findViewById(R.id.tv_wallet_name);
+        wallet_balance = view.findViewById(R.id.tv_balance);
+        monetary_unit_1 = view.findViewById(R.id.tv_monetary_unit_1);
+        monetary_unit_2 = view.findViewById(R.id.tv_monetary_unit_2);
+    }
+
+    private void setListeners() {
+        datePicker.setOnClickListener(this::buttonSelected);
+        displayAll.setOnClickListener(this::buttonSelected);
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        communicator.addOnSetCurrentWalletObserver( wallet -> {
+            wallet_name.setText(wallet.getName());
+            wallet_balance.setText(String.valueOf(wallet.getBalance()));
+            String symbol = wallet.getCurrency().getSymbol();
+            monetary_unit_1.setText(symbol);
+            monetary_unit_2.setText(symbol);
+        });
         ini(view);
         setListeners();
     }
@@ -56,7 +84,6 @@ public class TopFrameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -73,16 +100,6 @@ public class TopFrameFragment extends Fragment {
             return true;
         }
         return false;
-    }
-
-    private void ini(View view) {
-        datePicker = view.findViewById(R.id.date_picker);
-        displayAll = view.findViewById(R.id.display_all);
-    }
-
-    private void setListeners() {
-        datePicker.setOnClickListener(this::buttonSelected);
-        displayAll.setOnClickListener(this::buttonSelected);
     }
 
     private void buttonSelected(View view) {

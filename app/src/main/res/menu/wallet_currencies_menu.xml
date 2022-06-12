@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_item_us_dollar"
+        android:icon="@drawable/dollar"
+        android:title="US Dollar" />
+    <item android:id="@+id/menu_item_ca_dollar"
+        android:icon="@drawable/ca_dollar"
+        android:title="Canadian Dollar" />
+    <item android:id="@+id/menu_item_vn_dong"
+        android:icon="@drawable/dong"
+        android:title="Vietnam Dong" />
+    <item android:id="@+id/menu_item_br_real"
+        android:icon="@drawable/brazillian_real"
+        android:title="Brazilian Real" />
+    <item android:id="@+id/menu_item_yen"
+        android:icon="@drawable/yen"
+        android:title="Yen" />
+    <item android:id="@+id/menu_item_kr_won"
+        android:icon="@drawable/won"
+        android:title="Won" />
+    <item android:id="@+id/menu_item_euro"
+        android:icon="@drawable/euro"
+        android:title="Euro" />
+    <item android:id="@+id/menu_item_pound"
+        android:icon="@drawable/pound"
+        android:title="Pound" />
+    <item android:id="@+id/menu_item_thai_baht"
+        android:icon="@drawable/baht"
+        android:title="Thai Baht" />
+</menu>

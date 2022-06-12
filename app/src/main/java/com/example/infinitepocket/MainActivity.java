@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     boolean topFrameChangeRequired = true;
     Fragment prevBottomFragment = null;
 
+    Communicator communicator = Communicator.getInstance();
+
     // PRESS THE BACK BUTTON TWICE TO EXIT
     @Override
     public void onBackPressed() {
@@ -36,9 +39,22 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
+    private void startCreateWalletActivity() {
+        Intent myIntent = new Intent(this, CreateWalletActivity.class);
+        // myIntent.putExtra("key", value); //Optional parameters
+        startActivity(myIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        communicator.addOnSetCurrentWalletObserver( wallet -> {
+            CustomizedToast.show(this, "showing new wallet: " + wallet.getName());
+        });
+
+        startCreateWalletActivity();
+
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
@@ -48,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         ini();
         setListeners();
         bottomMenu.setItemSelected(R.id.menu_item_wallet, true);
+
     }
 
 

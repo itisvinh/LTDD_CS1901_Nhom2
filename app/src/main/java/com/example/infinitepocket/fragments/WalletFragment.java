@@ -11,13 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.infinitepocket.AddTransactionActivity;
 import com.example.infinitepocket.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class WalletFragment extends Fragment {
-    Button startActivity;
-
+    LinearLayout root;
+    FloatingActionButton add_transaction;
 
     public WalletFragment() {
         // Required empty public constructor
@@ -36,19 +39,32 @@ public class WalletFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        ini(view);
+//        setListeners();
+//        View child = getLayoutInflater().inflate(R.layout.transaction_item, null);
+//        root.addView(child);
+//    }
+
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ini(view);
-    }
+        // button = view.findViewById(R.id.my_button);
 
+        // lay context: getActivity() hoac getActivity().getApplicationContext()
+    }
     private void ini(View view) {
+        root = view.findViewById(R.id.frag_wallet_root);
+        add_transaction = view.findViewById(R.id.fab_add_trans);
     }
 
     private void setListeners() {
-        startActivity.setOnClickListener(v -> {
-
+        add_transaction.setOnClickListener( view -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), AddTransactionActivity.class);
+            startActivity(intent);
         });
     }
 }

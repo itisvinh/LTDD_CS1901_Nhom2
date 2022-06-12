@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InfinitePocket">
         <activity
+            android:name=".CreateWalletActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddTransactionActivity"
             android:exported="false" />
         <activity
