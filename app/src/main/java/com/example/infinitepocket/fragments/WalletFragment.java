@@ -39,23 +39,16 @@ public class WalletFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        ini(view);
-//        setListeners();
-//        View child = getLayoutInflater().inflate(R.layout.transaction_item, null);
-//        root.addView(child);
-//    }
-
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // button = view.findViewById(R.id.my_button);
-
-        // lay context: getActivity() hoac getActivity().getApplicationContext()
+        ini(view);
+        setListeners();
+        View child = getLayoutInflater().inflate(R.layout.transaction_item, null);
+        root.addView(child);
     }
+
     private void ini(View view) {
         root = view.findViewById(R.id.frag_wallet_root);
         add_transaction = view.findViewById(R.id.fab_add_trans);

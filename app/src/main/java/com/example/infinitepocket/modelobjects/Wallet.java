@@ -3,34 +3,56 @@ package com.example.infinitepocket.modelobjects;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.example.infinitepocket.interfaces.EditableBase;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Wallet {
+public class Wallet extends EditableBase<Wallet> {
+    @Nullable
+    private int id;
     @NonNull
     private String name;
     @NonNull
     private Currency currency;
-    @NonNull
-    private Map<Date, Transaction> transactions;
     private double balance = 1d;
 
-    public Wallet(String _name, Currency _currency, double _balance) {
-        transactions = new HashMap<>(10);
 
+
+    public Wallet(String _name, Currency _currency, double _balance) {
         name = _name;
         currency = _currency;
         balance = _balance;
     }
 
-    public void addNewTransaction(Transaction transaction) {
-        transactions.put(transaction.getCreatedDate(), transaction);
+
+    @Override
+    protected Wallet getInstance() {
+        return this;
     }
-    public void removeTransaction(Date createdDate) {
-        transactions.remove(createdDate);
+
+    @Override
+    public void commitEdit() {
+
+    }
+
+    public void setName(@NonNull String name) {
+        addUnsavedChanges(this.name, name);
+    }
+
+    public void setBalance(double balance) {
+        addUnsavedChanges(this.balance, balance);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @NonNull
@@ -43,12 +65,9 @@ public class Wallet {
         return currency;
     }
 
-    @NonNull
-    public Map<Date, Transaction> getTransactions() {
-        return transactions;
-    }
-
     public double getBalance() {
         return balance;
     }
+
+
 }

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.infinitepocket.adapters.DropDownMenuAdapter;
 import com.example.infinitepocket.items.DropDownItem;
 import com.example.infinitepocket.modelobjects.Category;
+import com.example.infinitepocket.modelobjects.Event;
+import com.example.infinitepocket.modelobjects.Transaction;
 import com.example.infinitepocket.utilities.CustomizedToast;
 
 import java.util.ArrayList;
@@ -27,8 +29,10 @@ public class AddTransactionActivity extends AppCompatActivity {
     TextView create_transaction;
     EditText transaction_created_date;
     AutoCompleteTextView transaction_category_selector;
+    AutoCompleteTextView transaction_event_selector;
 
     Calendar globalCalendar = Calendar.getInstance();
+    Communicator communicator = Communicator.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +42,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         ini();
         iniViews();
         setListeners();
-
-
     }
-
 
     public AddTransactionActivity() {
         super();
@@ -52,17 +53,26 @@ public class AddTransactionActivity extends AppCompatActivity {
         create_transaction = findViewById(R.id.create_trans);
         transaction_created_date = findViewById(R.id.trans_created_date);
         transaction_category_selector = findViewById(R.id.trans_category_selector);
+        transaction_event_selector = findViewById(R.id.trans_event_selector);
     }
 
     private void iniViews() {
         updateSelectedDate();
 
+        // category selector
         List<DropDownItem> items = new ArrayList<>(Category.MAX_ID);
         for (int i = 0; i <= Category.MAX_ID; i++)
             items.add(new DropDownItem(Category.getFormattedName(i), Category.getIconId(i)));
 
-        DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, items);
-        transaction_category_selector.setAdapter(adapter);
+        DropDownMenuAdapter cat_adapter = new DropDownMenuAdapter(this, items);
+        transaction_category_selector.setAdapter(cat_adapter);
+
+        // event selector
+        List<DropDownItem> event_items = new ArrayList<>(10);
+        event_items.add(new DropDownItem("None", R.drawable.ic_menu_wallet));
+
+        DropDownMenuAdapter event_adapter = new DropDownMenuAdapter(this, event_items);
+        transaction_event_selector.setAdapter(event_adapter);
     }
 
     private String formatAsString(Calendar calendar) {

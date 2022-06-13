@@ -1,19 +1,27 @@
 package com.example.infinitepocket.modelobjects;
 
+import java.security.PublicKey;
 import java.sql.Date;
 
 public class Event {
+    // primary key
+    private String aliasName;
     private Transaction transaction;
     private Date recurringTime;
     private Date lastAddedTime;
 
-    public Event(Transaction transaction, Date recurringTime) {
+    public Event(String aliasName, Transaction transaction, Date recurringTime) {
+        this.aliasName = aliasName;
         this.transaction = transaction;
         this.recurringTime = recurringTime;
     }
 
     public Date getLastAddedTime() {
         return lastAddedTime;
+    }
+
+    public String getAliasName() {
+        return aliasName;
     }
 
     public void setLastAddedTime(Date _lastAddedTime) {

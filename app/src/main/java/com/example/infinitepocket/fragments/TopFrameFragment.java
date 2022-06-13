@@ -1,6 +1,7 @@
 package com.example.infinitepocket.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -22,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.infinitepocket.Communicator;
+import com.example.infinitepocket.CreateWalletActivity;
+import com.example.infinitepocket.CreateWalletMode;
 import com.example.infinitepocket.MainActivity;
 import com.example.infinitepocket.R;
 import com.example.infinitepocket.viewmodels.MainViewModel;
@@ -37,6 +40,7 @@ public class TopFrameFragment extends Fragment {
     TextView wallet_balance;
     TextView monetary_unit_1;
     TextView monetary_unit_2;
+    View edit_wallet;
     int currentButtonId;
 
     Communicator communicator = Communicator.getInstance();
@@ -59,11 +63,17 @@ public class TopFrameFragment extends Fragment {
         wallet_balance = view.findViewById(R.id.tv_balance);
         monetary_unit_1 = view.findViewById(R.id.tv_monetary_unit_1);
         monetary_unit_2 = view.findViewById(R.id.tv_monetary_unit_2);
+        edit_wallet = view.findViewById(R.id.edit_wallet);
     }
 
     private void setListeners() {
         datePicker.setOnClickListener(this::buttonSelected);
         displayAll.setOnClickListener(this::buttonSelected);
+        edit_wallet.setOnClickListener( view -> {
+            communicator.setCreateWalletMode(CreateWalletMode.MODE_EDIT);
+            Intent intent = new Intent(getActivity(), CreateWalletActivity.class);
+            startActivity(intent);
+        });
     }
 
 

@@ -1,11 +1,13 @@
 package com.example.infinitepocket;
 
+import com.example.infinitepocket.interfaces.Observable;
+import com.example.infinitepocket.modelobjects.Transaction;
 import com.example.infinitepocket.modelobjects.Wallet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Communicator {
+public final class Communicator implements Observable{
     private static Communicator instance;
     private Communicator() {}
 
@@ -14,8 +16,22 @@ public final class Communicator {
             instance = new Communicator();
         return instance;
     }
+
     private Wallet currentWallet = null;
-    private List<Observable<Wallet>> observables = new ArrayList<>();
+    private List<Observable<Wallet>> wallet_observables = new ArrayList<>();
+    private List<Observable<Transaction>> transaction_observables = new ArrayList<>();
+    private CreateWalletMode createWalletMode = CreateWalletMode.MODE_CREATE;
+
+
+    public CreateWalletMode getCreateWalletMode() {
+        return createWalletMode;
+    }
+
+    public void setCreateWalletMode(CreateWalletMode createWalletMode) {
+        if (createWalletMode == CreateWalletMode.MODE_EDIT && currentWallet == null)
+            throw new IllegalArgumentException("Communicator.currentWallet is not editable: null?");
+        this.createWalletMode = createWalletMode;
+    }
 
     public void setCurrentWallet(Wallet wallet) {
         if (currentWallet != wallet) {
@@ -24,12 +40,20 @@ public final class Communicator {
         }
     }
 
+    public Wallet getCurrentWallet() {
+        return currentWallet;
+    }
+
     private void fireAll() {
-        for (Observable<Wallet> observable : observables)
+        for (Observable<Wallet> observable : wallet_observables)
             observable.fire(currentWallet);
     }
     public void addOnSetCurrentWalletObserver(Observable<Wallet> observable) {
-        observables.add(observable);
+        wallet_observables.add(observable);
     }
 
+    @Override
+    public void fire(Object source) {
+
+    }
 }

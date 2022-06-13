@@ -1,53 +1,81 @@
 package com.example.infinitepocket.modelobjects;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Date;
 
-public final class Transaction {
+public class Transaction {
+    @Nullable
+    private int id;
     @NonNull
-    private final Date createdDate;
+    private double amount;
     @NonNull
-    private final double amount;
+    private Category category;
     @NonNull
-    private final int categoryId;
+    private String note;
     @NonNull
-    private final String note;
+    private Date date;
     @NonNull
-    private final Date date;
-    @NonNull
-    private final Wallet wallet;
+    private Wallet wallet;
 
-    public Transaction(Date createdDate, double amount, int categoryId, String note, Date date, Wallet wallet) {
-        this.createdDate = createdDate;
+    public Transaction(double amount, Category category, String note, Date date, Wallet wallet) {
         this.amount = amount;
-        this.categoryId = categoryId;
+        this.category = category;
         this.note = note;
         this.date = date;
         this.wallet = wallet;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
+    @NonNull
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(@NonNull Category category) {
+        this.category = category;
+    }
+
+    @NonNull
     public String getNote() {
         return note;
     }
 
+    public void setNote(@NonNull String note) {
+        this.note = note;
+    }
+
+    @NonNull
     public Date getDate() {
         return date;
     }
 
+    public void setDate(@NonNull Date date) {
+        this.date = date;
+    }
+
+    @NonNull
     public Wallet getWallet() {
         return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 }

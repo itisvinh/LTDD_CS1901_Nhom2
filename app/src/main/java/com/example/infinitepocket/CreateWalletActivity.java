@@ -40,7 +40,21 @@ public class CreateWalletActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         ini();
         setListeners();
+        checkMode();
         loadCurrencies();
+    }
+
+    private void checkMode() {
+        if (communicator.getCreateWalletMode() == CreateWalletMode.MODE_EDIT) {
+            Wallet wallet = communicator.getCurrentWallet();
+            wallet_name.setText(wallet.getName());
+            wallet_balance.setText(String.valueOf(wallet.getBalance()));
+            currency_selector.setText(wallet.getCurrency().getName());
+            currency_selector_layout.setStartIconDrawable(wallet.getCurrency().getDrawableIconId());
+            currency_selector.setEnabled(false);
+            create_wallet.setText("EDIT");
+            selected_currency_position = wallet.getCurrency().getId();
+        }
     }
 
     private void ini() {
@@ -70,6 +84,13 @@ public class CreateWalletActivity extends AppCompatActivity {
             if (wallet != null) {
                 CustomizedToast.show(this, "New wallet created successfully");
                 communicator.setCurrentWallet(wallet);
+
+                if (communicator.getCreateWalletMode() == CreateWalletMode.MODE_EDIT) {
+                    communicator.getCurrentWallet().setName(wallet.getName());
+                    communicator.getCurrentWallet().setBalance(wallet.getBalance());
+                    communicator.setCreateWalletMode(CreateWalletMode.MODE_CREATE);
+                    CustomizedToast.show(this, "Edited wallet successfully");
+                }
                 this.finish();
             }
         });
