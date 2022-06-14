@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.infinitepocket.adapters.DropDownMenuAdapter;
+import com.example.infinitepocket.database.DatabaseHelper;
 import com.example.infinitepocket.items.DropDownItem;
 import com.example.infinitepocket.modelobjects.Currency;
 import com.example.infinitepocket.modelobjects.Wallet;
@@ -82,44 +83,65 @@ public class CreateWalletActivity extends AppCompatActivity {
         create_wallet.setOnClickListener( view -> {
             Wallet wallet = tryCreatingWallet();
             if (wallet != null) {
-                CustomizedToast.show(this, "New wallet created successfully");
-                communicator.setCurrentWallet(wallet);
+                if (communicator.getCreateWalletMode() == CreateWalletMode.MODE_CREATE) {
+                    boolean res = new DatabaseHelper(getApplicationContext()).addNewWallet(wallet);
+                    if (res) {
+                        communicator.setCurrentWallet(wallet);
+                        CustomizedToast.show(this, "New wallet is created");
+                    } else
+                        CustomizedToast.show(this, "Failed to create new wallet");
+                }
+                else if (communicator.getCreateWalletMode() == CreateWalletMode.MODE_EDIT) {
+                    Wallet currentWallet = communicator.getCurrentWallet();
+                    Wallet cpWallet = currentWallet.clone();
 
-                if (communicator.getCreateWalletMode() == CreateWalletMode.MODE_EDIT) {
-                    communicator.getCurrentWallet().setName(wallet.getName());
-                    communicator.setCreateWalletMode(CreateWalletMode.MODE_CREATE);
-                    CustomizedToast.show(this, "Edited wallet successfully");
+                    boolean res = new DatabaseHelper(getApplicationContext()).updateWallet(cpWallet);
+                    if (res) {
+                        currentWallet.beginEdit().setName(wallet.getName()).commitEdit();
+                        communicator.setCreateWalletMode(CreateWalletMode.MODE_CREATE);
+                        CustomizedToast.show(this, "Wallet has been updated");
+                    } else
+                        CustomizedToast.show(this, "Failed to update wallet");
                 }
                 this.finish();
             }
         });
     }
 
-    private Wallet tryCreatingWallet() {
-        String wName;
-        Currency wCurrency;
-        double wBalance;
-
+    private String tryGettingName() {
         if (wallet_name.getText().toString().length() < 3) {
             CustomizedToast.show(this, "Wallet name must be at least 3 characters");
             return null;
         } else
-            wName = wallet_name.getText().toString();
+            return wallet_name.getText().toString();
+    }
 
+    private Currency tryGettingCurrency() {
         if (selected_currency_position == -1) {
             CustomizedToast.show(this, "Select currency first");
             return null;
         } else {
             String sel_item_name = currency_adapter.getItem(selected_currency_position).getItemName().trim();
-            wCurrency = new Currency(Currency.getCurrencyIdByName(sel_item_name));
+            return new Currency(Currency.getCurrencyIdByName(sel_item_name));
         }
+    }
 
+    private Double tryGettingBalance() {
         if (wallet_balance.getText().toString().equals("")) {
             CustomizedToast.show(this, "Enter your balance");
             return null;
         } else {
-            wBalance = Double.parseDouble(wallet_balance.getText().toString());
+            return Double.parseDouble(wallet_balance.getText().toString());
         }
+    }
+
+    private Wallet tryCreatingWallet() {
+        String wName = tryGettingName();
+        Currency wCurrency = tryGettingCurrency();
+        Double wBalance = tryGettingBalance();
+
+        if (wName == null || wCurrency == null || wBalance == null)
+            return null;
 
         return new Wallet(wName, wCurrency, wBalance);
     }

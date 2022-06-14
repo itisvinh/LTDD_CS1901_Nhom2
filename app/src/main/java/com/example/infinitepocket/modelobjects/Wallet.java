@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class Wallet extends EditableBase<Wallet> {
+public class Wallet extends EditableBase<Wallet> implements Cloneable{
     // luu csdl
     @Nullable
     private int id;
@@ -51,6 +51,15 @@ public class Wallet extends EditableBase<Wallet> {
         name = _name;
         currency = _currency;
         balance = _balance;
+    }
+
+    public Wallet(int id, String _name, Currency _currency, double _balance, double used) {
+        this.id = id;
+        name = _name;
+        currency = _currency;
+        balance = _balance;
+        this.used = used;
+        available = balance - used;
     }
 
     public Wallet addToBalance(double amount) {
@@ -142,11 +151,6 @@ public class Wallet extends EditableBase<Wallet> {
         return id;
     }
 
-    public Wallet setId(int id) {
-        this.id = id;
-        return this;
-    }
-
     @NonNull
     public String getName() {
         return name;
@@ -175,6 +179,15 @@ public class Wallet extends EditableBase<Wallet> {
             addToBalance(transaction.getAmount());
 
         commitEdit();
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public Wallet clone() {
+        return new Wallet(id, name, new Currency(currency.getId()), balance, used);
     }
 
 }
