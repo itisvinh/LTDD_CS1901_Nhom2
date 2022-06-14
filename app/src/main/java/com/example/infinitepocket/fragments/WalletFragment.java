@@ -70,7 +70,7 @@ public class WalletFragment extends Fragment {
         TextView cat = child.findViewById(R.id.trans_item_category);
         TextView details = child.findViewById(R.id.trans_item_details);
         TextView amount = child.findViewById(R.id.trans_item_amount);
-        TextView createdDate = child.findViewById(R.id.trans_item_created_date);
+        TextView id = child.findViewById(R.id.trans_item_id);
 
         civ.setImageDrawable(getResources().getDrawable(transaction.getCategory().getIconId()));
         cat.setText(transaction.getCategory().getFormattedName());
@@ -85,8 +85,7 @@ public class WalletFragment extends Fragment {
             amount.setTextColor(Color.rgb(10,200,10));
         }
 
-        Date cDate = transaction.getCreatedDate();
-        createdDate.setText(cDate.getDay() + "-" + cDate.getMonth() + "-" + cDate.getYear());
+        id.setText(transaction.getId());
 
         root.addView(child);
     }
