@@ -80,13 +80,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Created Date:"
+                android:text="Date:"
                 android:layout_marginTop="20dp"/>
             <EditText
-                android:id="@+id/trans_created_date"
+                android:id="@+id/trans_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:editable="false"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -94,6 +95,7 @@
                 android:text="Price:"
                 android:layout_marginTop="20dp"/>
             <EditText
+                android:id="@+id/trans_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"/>
@@ -108,27 +110,31 @@
                 android:layout_marginTop="20dp">
 
                 <EditText
+                    android:id="@+id/trans_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:lines="10"/>
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:maxLines="10"
+                    android:scrollbars="vertical"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Event"
-                app:startIconDrawable="@drawable/dollar"
-                android:layout_marginTop="20dp">
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Event"-->
+<!--                app:startIconDrawable="@drawable/dollar"-->
+<!--                android:layout_marginTop="20dp">-->
 
-                <AutoCompleteTextView
-                    android:id="@+id/trans_event_selector"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="none"/>
-            </com.google.android.material.textfield.TextInputLayout>
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/trans_event_selector"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:inputType="none"/>-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
         </LinearLayout>
     </ScrollView>

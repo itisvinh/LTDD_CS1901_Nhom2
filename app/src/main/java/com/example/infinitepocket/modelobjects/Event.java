@@ -3,17 +3,37 @@ package com.example.infinitepocket.modelobjects;
 import java.security.PublicKey;
 import java.sql.Date;
 
+@Deprecated
 public class Event {
-    // primary key
+    private int id;
     private String aliasName;
-    private Transaction transaction;
     private Date recurringTime;
     private Date lastAddedTime;
+    public static String NONE = "None";
 
-    public Event(String aliasName, Transaction transaction, Date recurringTime) {
-        this.aliasName = aliasName;
-        this.transaction = transaction;
+    public Event(String aliasName, Date recurringTime) {
+        this.aliasName = formatName(aliasName);
         this.recurringTime = recurringTime;
+    }
+
+    private String formatName(String name) {
+        String[] tokens = name.trim().split("\\s+");
+        StringBuilder stringBuilder = new StringBuilder("");
+        for (int i = 0; i < tokens.length; i++) {
+            if (i != 0)
+                stringBuilder.append(" ");
+            stringBuilder.append(String.valueOf(tokens[i].charAt(0)).toUpperCase()
+                    + tokens[i].toLowerCase().substring(1));
+        }
+        return stringBuilder.toString();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getLastAddedTime() {
@@ -30,10 +50,6 @@ public class Event {
             return;
         }
         throw new IllegalArgumentException("The latest added time has to be after the previous one");
-    }
-
-    public Transaction getTransaction() {
-        return transaction;
     }
 
     public Date getRecurringTime() {

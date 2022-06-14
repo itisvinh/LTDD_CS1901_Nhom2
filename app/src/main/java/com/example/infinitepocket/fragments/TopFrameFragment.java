@@ -27,7 +27,10 @@ import com.example.infinitepocket.CreateWalletActivity;
 import com.example.infinitepocket.CreateWalletMode;
 import com.example.infinitepocket.MainActivity;
 import com.example.infinitepocket.R;
+import com.example.infinitepocket.modelobjects.Category;
 import com.example.infinitepocket.viewmodels.MainViewModel;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -40,6 +43,8 @@ public class TopFrameFragment extends Fragment {
     TextView wallet_balance;
     TextView monetary_unit_1;
     TextView monetary_unit_2;
+    TextView wallet_spending;
+    TextView wallet_available;
     View edit_wallet;
     int currentButtonId;
 
@@ -64,6 +69,8 @@ public class TopFrameFragment extends Fragment {
         monetary_unit_1 = view.findViewById(R.id.tv_monetary_unit_1);
         monetary_unit_2 = view.findViewById(R.id.tv_monetary_unit_2);
         edit_wallet = view.findViewById(R.id.edit_wallet);
+        wallet_spending = view.findViewById(R.id.tv_spending);
+        wallet_available = view.findViewById(R.id.tv_available);
     }
 
     private void setListeners() {
@@ -86,6 +93,14 @@ public class TopFrameFragment extends Fragment {
             String symbol = wallet.getCurrency().getSymbol();
             monetary_unit_1.setText(symbol);
             monetary_unit_2.setText(symbol);
+            wallet_spending.setText(String.valueOf(wallet.getUsed()));
+            wallet_available.setText(String.valueOf(wallet.getAvailable()));
+        });
+        communicator.addOnChangedCurrentWalletObserver( wallet -> {
+            wallet_name.setText(wallet.getName());
+            wallet_balance.setText(String.valueOf(wallet.getBalance()));
+            wallet_spending.setText(String.valueOf(wallet.getUsed()));
+            wallet_available.setText(String.valueOf(wallet.getAvailable()));
         });
         ini(view);
         setListeners();

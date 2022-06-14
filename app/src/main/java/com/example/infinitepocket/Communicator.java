@@ -1,5 +1,8 @@
 package com.example.infinitepocket;
 
+import android.graphics.Color;
+
+import com.example.infinitepocket.interfaces.Notifiable;
 import com.example.infinitepocket.interfaces.Observable;
 import com.example.infinitepocket.modelobjects.Transaction;
 import com.example.infinitepocket.modelobjects.Wallet;
@@ -7,7 +10,10 @@ import com.example.infinitepocket.modelobjects.Wallet;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Communicator implements Observable{
+
+// Mediator class
+// this class handles all the communication between every other classes
+public final class Communicator{
     private static Communicator instance;
     private Communicator() {}
 
@@ -18,10 +24,11 @@ public final class Communicator implements Observable{
     }
 
     private Wallet currentWallet = null;
-    private List<Observable<Wallet>> wallet_observables = new ArrayList<>();
-    private List<Observable<Transaction>> transaction_observables = new ArrayList<>();
+    private Transaction lastTransaction = null;
+    private List<Observable<Wallet>> wallet_creation_observables = new ArrayList<>();
+    private List<Observable<Wallet>> wallet_change_observables = new ArrayList<>();
+    private List<Observable<Transaction>> transaction_creation_observables = new ArrayList<>();
     private CreateWalletMode createWalletMode = CreateWalletMode.MODE_CREATE;
-
 
     public CreateWalletMode getCreateWalletMode() {
         return createWalletMode;
@@ -33,10 +40,22 @@ public final class Communicator implements Observable{
         this.createWalletMode = createWalletMode;
     }
 
+    public Transaction getLastTransaction() {
+        return lastTransaction;
+    }
+
+    public void setLastTransaction(Transaction lastTransaction) {
+        if (this.lastTransaction != lastTransaction) {
+            this.lastTransaction = lastTransaction;
+            currentWallet.addTransaction(lastTransaction);
+            fireAllTransactionCreationObservables();
+        }
+    }
+
     public void setCurrentWallet(Wallet wallet) {
         if (currentWallet != wallet) {
             currentWallet = wallet;
-            fireAll();
+            fireAllWalletCreationObservables();
         }
     }
 
@@ -44,16 +63,30 @@ public final class Communicator implements Observable{
         return currentWallet;
     }
 
-    private void fireAll() {
-        for (Observable<Wallet> observable : wallet_observables)
+    private void fireAllWalletCreationObservables() {
+        for (Observable<Wallet> observable : wallet_creation_observables)
             observable.fire(currentWallet);
     }
-    public void addOnSetCurrentWalletObserver(Observable<Wallet> observable) {
-        wallet_observables.add(observable);
+
+    private void fireAllTransactionCreationObservables() {
+        for (Observable<Transaction> observable : transaction_creation_observables)
+            observable.fire(lastTransaction);
     }
 
-    @Override
-    public void fire(Object source) {
+    public void addOnCreatedTransactionObservables(Observable<Transaction> observable) {
+        transaction_creation_observables.add(observable);
+    }
 
+    public void addOnSetCurrentWalletObserver(Observable<Wallet> observable) {
+        wallet_creation_observables.add(observable);
+    }
+
+    public void addOnChangedCurrentWalletObserver(Observable<Wallet> observable) {
+        wallet_change_observables.add(observable);
+    }
+
+    public void getNotifiedFromWalletChange(Wallet wallet) {
+        for (Observable<Wallet> observables : wallet_change_observables)
+            observables.fire(wallet);
     }
 }

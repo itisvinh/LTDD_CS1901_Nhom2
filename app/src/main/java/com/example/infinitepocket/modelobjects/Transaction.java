@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import java.util.Date;
 
 public class Transaction {
-    @Nullable
+    @NonNull
     private int id;
     @NonNull
     private double amount;
@@ -18,13 +18,15 @@ public class Transaction {
     private Date date;
     @NonNull
     private Wallet wallet;
-
-    public Transaction(double amount, Category category, String note, Date date, Wallet wallet) {
+//    @Nullable
+//    private Event event;
+    public Transaction(double amount, Category category, String note, Date date, Wallet wallet/*, Event event*/) {
         this.amount = amount;
         this.category = category;
         this.note = note;
         this.date = date;
         this.wallet = wallet;
+        //this.event = event;
     }
 
     public int getId() {
@@ -34,6 +36,15 @@ public class Transaction {
     public void setId(int id) {
         this.id = id;
     }
+
+//    @Nullable
+//    public Event getEvent() {
+//        return event;
+//    }
+//
+//    public void setEvent(@Nullable Event event) {
+//        this.event = event;
+//    }
 
     public double getAmount() {
         return amount;

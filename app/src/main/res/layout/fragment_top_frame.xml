@@ -118,7 +118,7 @@
                     android:id="@+id/tv_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1000"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 
@@ -136,7 +136,7 @@
                     android:id="@+id/tv_spending"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="82"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -169,7 +169,7 @@
                     android:id="@+id/tv_available"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="18"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
             </LinearLayout>

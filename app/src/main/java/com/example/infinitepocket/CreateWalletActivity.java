@@ -87,7 +87,6 @@ public class CreateWalletActivity extends AppCompatActivity {
 
                 if (communicator.getCreateWalletMode() == CreateWalletMode.MODE_EDIT) {
                     communicator.getCurrentWallet().setName(wallet.getName());
-                    communicator.getCurrentWallet().setBalance(wallet.getBalance());
                     communicator.setCreateWalletMode(CreateWalletMode.MODE_CREATE);
                     CustomizedToast.show(this, "Edited wallet successfully");
                 }

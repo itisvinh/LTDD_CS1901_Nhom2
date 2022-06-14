@@ -18,13 +18,13 @@
         app:cnb_backgroundColor="#3BFEE440"
         app:cnb_textColor="#6A601B"
         />
-    <item
-        android:id="@+id/menu_item_planning"
-        android:icon="@drawable/ic_menu_wallet"
-        android:title="PLANNING"
-        app:cnb_iconColor="#3478E4"
-        app:cnb_backgroundColor="#333478E4"
-        app:cnb_textColor="#25529A"/>
+<!--    <item-->
+<!--        android:id="@+id/menu_item_planning"-->
+<!--        android:icon="@drawable/ic_menu_wallet"-->
+<!--        android:title="PLANNING"-->
+<!--        app:cnb_iconColor="#3478E4"-->
+<!--        app:cnb_backgroundColor="#333478E4"-->
+<!--        app:cnb_textColor="#25529A"/>-->
     <item
         android:id="@+id/menu_item_about"
         android:icon="@drawable/ic_menu_wallet"

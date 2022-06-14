@@ -24,6 +24,7 @@ public abstract class EditableBase<T> {
     public void commitEdit() {
         if (!readyForEditing)
             throw new IllegalStateException("Call beginEdit() to start editing");
+        readyForEditing = false;
     }
 
     protected void addUnsavedChanges(Object key, Object value) {
@@ -32,7 +33,7 @@ public abstract class EditableBase<T> {
         unsavedChanges.put(key, value);
     }
 
-    protected Map.Entry getEntryFromKey(Object key) {
+    protected Map.Entry getUnsavedEntryFromKey(Object key) {
         for (Map.Entry entry : unsavedChanges.entrySet()) {
             if (entry.getKey() == key)
                 return entry;
@@ -40,7 +41,11 @@ public abstract class EditableBase<T> {
         return null;
     }
 
-    protected List<Map.Entry> getEntryFromValue(Object value) {
+    protected void flushUnsavedChanged() {
+        unsavedChanges.clear();
+    }
+
+    protected List<Map.Entry> getUnsavedEntryFromValue(Object value) {
         List<Map.Entry> entries = new ArrayList<>();
         for (Map.Entry entry : unsavedChanges.entrySet()) {
             if (entry.getValue() == value)

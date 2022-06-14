@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 
 import com.example.infinitepocket.R;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 
 public final class Category{
@@ -43,10 +44,18 @@ public final class Category{
     public static final int SALARY = 32;
     public static final int OTHER_INCOME = 33;
     public static final int OTHER_EXPENSE = 34;
-    public static final int MAX_ID = 34;
+    public static final int INCOME = 35;
+    public static final int MAX_ID = 35;
+
+    private int id;
 
     private Category() {
+    }
 
+    public Category(int _id) {
+        if (_id < 0 || _id > MAX_ID)
+            throw new IllegalArgumentException("Invalid category ID");
+        id = _id;
     }
 
     public static Integer getIconId(int category_id) {
@@ -56,12 +65,30 @@ public final class Category{
         }
     }
 
+    public Integer getIconId() {
+        return getIconId(id);
+    }
+
     public static String getName(int _category_id) {
         if (!isIdValid(_category_id))
             throw new IllegalArgumentException("Invalid ID");
 
-        String name = new Category().getClass().getFields()[_category_id].getName();
-        return name;
+        try {
+            for (Field field : Category.class.getFields()) {
+                if (_category_id ==  (int) field.get(new Category())) {
+                    if (field.getName().equalsIgnoreCase("MAX_ID"))
+                        continue;
+                    return field.getName();
+                }
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        return null;
+    }
+
+    public String getName() {
+        return getName(id);
     }
 
     public static String getFormattedName(int _category_id) {
@@ -77,12 +104,19 @@ public final class Category{
         return stringBuilder.toString();
     }
 
-    public static int getIdByName(String name) {
+    public String getFormattedName() {
+        return getFormattedName(id);
+    }
+
+    public static Integer getIdByName(String name) {
         Field[] fields = new Category().getClass().getFields();
-        for (int i = 0; i <= Category.MAX_ID; i++) {
-            if (fields[i].getName().equalsIgnoreCase(name))
-                return i;
-        }
+
+        try {
+            for (int i = 0; i <= Category.MAX_ID; i++) {
+                if (fields[i].getName().equalsIgnoreCase(name))
+                    return (Integer) fields[i].get(new Category());
+            }
+        } catch (Exception e) {}
         return -1;
     }
 
@@ -90,6 +124,10 @@ public final class Category{
         if (_categoryId < 0 || _categoryId > MAX_ID)
             return false;
         return true;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
 }

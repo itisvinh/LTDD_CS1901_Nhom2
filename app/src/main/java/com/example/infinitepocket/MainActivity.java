@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentHelper.add(this, R.id.main_frame, FragmentFactory.get(FragmentFactory.TOP_FRAME_FRAGMENT));
         FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT));
         FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.REPORTS_FRAGMENT));
-        FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.PLANNING_FRAGMENT));
+        //FragmentHelper.add(this, R.id.bottom_container, FragmentFactory.get(FragmentFactory.PLANNING_FRAGMENT));
     }
 
     private void changeTopFrame() {
@@ -118,15 +118,15 @@ public class MainActivity extends AppCompatActivity {
                     FragmentHelper.show(this, reportsFragment);
                     break;
 
-                case R.id.menu_item_planning:
-                    changeTopFrame();
-                    Fragment planningFragment = FragmentFactory.get(FragmentFactory.PLANNING_FRAGMENT);
-                    if (prevBottomFragment != planningFragment) {
-                        FragmentHelper.hide(this, prevBottomFragment);
-                        prevBottomFragment = planningFragment;
-                    }
-                    FragmentHelper.show(this, planningFragment);
-                    break;
+//                case R.id.menu_item_planning:
+//                    changeTopFrame();
+//                    Fragment planningFragment = FragmentFactory.get(FragmentFactory.PLANNING_FRAGMENT);
+//                    if (prevBottomFragment != planningFragment) {
+//                        FragmentHelper.hide(this, prevBottomFragment);
+//                        prevBottomFragment = planningFragment;
+//                    }
+//                    FragmentHelper.show(this, planningFragment);
+//                    break;
 
                 case R.id.menu_item_about:
                     Fragment aboutFragment = FragmentFactory.get(FragmentFactory.ABOUT_FRAGMENT);
