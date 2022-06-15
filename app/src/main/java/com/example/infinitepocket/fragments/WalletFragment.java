@@ -165,5 +165,6 @@ public class WalletFragment extends Fragment {
         Collections.sort(sortedList, (i1, i2) -> i1.getValue().compareTo(i2.getValue()));
 
         // duyet qua list sortedList theo thu tu la top 1, top2, top 3
+    // new line
     }
 }
