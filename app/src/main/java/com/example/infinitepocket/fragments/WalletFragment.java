@@ -105,6 +105,11 @@ public class WalletFragment extends Fragment {
         TextView amount = child.findViewById(R.id.trans_item_amount);
         TextView id = child.findViewById(R.id.trans_item_id);
 
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        layoutParams.setMargins(15, 20, 15, 0);
+        child.setLayoutParams(layoutParams);
 
         civ.setImageDrawable(getResources().getDrawable(transaction.getCategory().getIconId()));
         cat.setText(transaction.getCategory().getFormattedName());

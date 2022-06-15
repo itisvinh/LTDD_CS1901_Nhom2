@@ -55,6 +55,8 @@ public class CreateWalletActivity extends AppCompatActivity {
             currency_selector.setEnabled(false);
             create_wallet.setText("EDIT");
             selected_currency_position = wallet.getCurrency().getId();
+        } else {
+            back_button_wallet.setVisibility(View.INVISIBLE);
         }
     }
 

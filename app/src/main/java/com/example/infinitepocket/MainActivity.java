@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         ini();
         setListeners();
         bottomMenu.setItemSelected(R.id.menu_item_wallet, true);
+        getWindow().setStatusBarColor(Color.parseColor("#8e34c1"));
     }
 
 
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     if (prevBottomFragment != walletFragment) {
                         FragmentHelper.hide(this, prevBottomFragment);
                         prevBottomFragment = walletFragment;
+                        getWindow().setStatusBarColor(Color.parseColor("#8e34c1"));
                     }
                     FragmentHelper.show(this, walletFragment);
                     break;
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     if (prevBottomFragment != reportsFragment) {
                         FragmentHelper.hide(this, prevBottomFragment);
                         prevBottomFragment = reportsFragment;
+                        getWindow().setStatusBarColor(Color.parseColor("#c78317"));
                     }
                     FragmentHelper.show(this, reportsFragment);
                     break;
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     FragmentHelper.hide(this, topFrameFragment);
                     FragmentHelper.show(this, aboutFragment);
                     topFrameChangeRequired = true;
-                    getWindow().setStatusBarColor(Color.parseColor("#234C09"));
+                    getWindow().setStatusBarColor(Color.parseColor("#aa327c"));
                     break;
             }
 
