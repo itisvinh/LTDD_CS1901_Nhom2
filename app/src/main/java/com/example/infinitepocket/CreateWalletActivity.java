@@ -87,6 +87,7 @@ public class CreateWalletActivity extends AppCompatActivity {
                     boolean res = new DatabaseHelper(getApplicationContext()).addNewWallet(wallet);
                     if (res) {
                         communicator.setCurrentWallet(wallet);
+                        //new DatabaseHelper(getApplicationContext()).updatePreviousWalletId(wallet.getId());
                         CustomizedToast.show(this, "New wallet is created");
                     } else
                         CustomizedToast.show(this, "Failed to create new wallet");
@@ -98,7 +99,7 @@ public class CreateWalletActivity extends AppCompatActivity {
                     boolean res = new DatabaseHelper(getApplicationContext()).updateWallet(cpWallet);
                     if (res) {
                         currentWallet.beginEdit().setName(wallet.getName()).commitEdit();
-                        communicator.setCreateWalletMode(CreateWalletMode.MODE_CREATE);
+                        //communicator.setCreateWalletMode(CreateWalletMode.MODE_CREATE);
                         CustomizedToast.show(this, "Wallet has been updated");
                     } else
                         CustomizedToast.show(this, "Failed to update wallet");

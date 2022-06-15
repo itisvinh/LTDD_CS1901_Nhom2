@@ -57,4 +57,17 @@ public class DbContract {
 
                 public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         }
+
+        public static abstract class PreviousSessionWallet implements BaseColumns {
+                public static final String TABLE_NAME = "previous_session_wallet";
+                public static final String COLUMN_NAME_ID = "id";
+                public static final String COLUMN_NAME_WALLET_ID = "wallet_id";
+
+                public static final String CREATE_TABLE = " CREATE TABLE " +
+                        TABLE_NAME + " (" +
+                        COLUMN_NAME_ID + " INTEGER PRIMARY KEY " + COMMA_SEP +
+                        COLUMN_NAME_WALLET_ID + INT_TYPE +
+                        " ); ";
+                public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+        }
 }

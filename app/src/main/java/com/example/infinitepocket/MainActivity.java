@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.example.infinitepocket.database.DatabaseHelper;
 import com.example.infinitepocket.fragments.FragmentFactory;
 import com.example.infinitepocket.fragments.tools.FragmentHelper;
+import com.example.infinitepocket.modelobjects.Wallet;
 import com.example.infinitepocket.utilities.CustomizedToast;
 import com.example.infinitepocket.viewmodels.MainViewModel;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -40,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startCreateWalletActivity() {
+//        int prevWallegtId = new DatabaseHelper(getApplicationContext()).getPreviousWalletId();
+//        Wallet wallet = new DatabaseHelper(getApplicationContext()).getWalletFromId(prevWallegtId);
+//
+//        if (wallet != null) {
+//            communicator.setCurrentWallet(wallet);
+//            return;
+//        }
         Intent myIntent = new Intent(this, CreateWalletActivity.class);
         // myIntent.putExtra("key", value); //Optional parameters
         startActivity(myIntent);
@@ -53,20 +62,17 @@ public class MainActivity extends AppCompatActivity {
             CustomizedToast.show(this, "showing new wallet: " + wallet.getName());
         });
 
-        startCreateWalletActivity();
-
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         //replaceFragment(R.id.main_frame, FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT));
         addingFragments();
         prevBottomFragment = FragmentFactory.get(FragmentFactory.WALLET_FRAGMENT);
+        startCreateWalletActivity();
         ini();
         setListeners();
         bottomMenu.setItemSelected(R.id.menu_item_wallet, true);
-
     }
-
 
 
     // mapping UI components

@@ -41,9 +41,8 @@
                     android:id="@+id/iv_wallet_image"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_menu_wallet"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
+                    android:src="@drawable/icon_bg_circle"
+                    app:civ_border_color="#FF000000" />
 
                 <ImageView
                     android:id="@+id/iv_expand_wallet_list"
@@ -66,7 +65,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@drawable/ic_baseline_edit_24"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="#8B3A20"
                     android:layout_gravity="end"
                     android:layout_marginEnd="20dp"
                     android:clickable="true"/>
@@ -108,7 +107,7 @@
                     android:id="@+id/tv_monetary_unit_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:text="$"
                     android:textColor="@color/black"
                     android:textSize="22sp"
@@ -120,7 +119,8 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="@color/black"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:layout_marginStart="5dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                     android:id="@+id/tv_monetary_unit_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:text="$"
                     android:textColor="@color/black"
                     android:textSize="22sp"
@@ -171,7 +171,8 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="@color/black"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:layout_marginStart="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -191,7 +192,8 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:text="may 2022"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:visibility="gone"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     style="@style/Widget.AppCompat.Button"

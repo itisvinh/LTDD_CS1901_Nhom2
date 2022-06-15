@@ -29,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(DbContract.PreviousSessionWallet.CREATE_TABLE);
         db.execSQL(DbContract.WalletTable.CREATE_TABLE);
         db.execSQL(DbContract.TransactionTable.CREATE_TABLE);
     }
@@ -37,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DbContract.WalletTable.DELETE_TABLE);
         db.execSQL(DbContract.TransactionTable.DELETE_TABLE);
+        db.execSQL(DbContract.PreviousSessionWallet.DELETE_TABLE);
         onCreate(db);
     }
 
@@ -107,10 +109,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res <= 0 ? false : true;
     }
 
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAllTransactions(TransactionRetrieveMode mode, int walletId) {
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from " + DbContract.TransactionTable.TABLE_NAME, null);
+        Cursor cursor;
+
+        if (mode.getMode() == TransactionRetrieveMode.MODE_ALL)
+            cursor = db.rawQuery("select * from " + DbContract.TransactionTable.TABLE_NAME +
+                            " where " + DbContract.TransactionTable.COLUMN_NAME_WALLET_ID + " = " + String.valueOf(walletId)
+                            , null);
+        else
+            cursor = db.rawQuery("select * from " + DbContract.TransactionTable.TABLE_NAME +
+                    " where " + DbContract.TransactionTable.COLUMN_NAME_DATE + " = '" + simpleDateFormat(mode.getDate()) + "' " +
+                    " and " + DbContract.TransactionTable.COLUMN_NAME_WALLET_ID + " = " + String.valueOf(walletId)
+                    , null);
 
         if (cursor.getCount() > 0) {
             List<Transaction> transactions = new ArrayList<>(cursor.getCount());
@@ -142,6 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean addNewWallet(Wallet wallet) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+
         contentValues.put(DbContract.WalletTable.COLUMN_NAME_NAME, wallet.getName());
         contentValues.put(DbContract.WalletTable.COLUMN_NAME_CURRENCY_ID, wallet.getCurrency().getId());
         contentValues.put(DbContract.WalletTable.COLUMN_NAME_BALANCE, wallet.getBalance());
@@ -216,6 +229,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return wallets;
         }
         return null;
+    }
+
+    public Wallet getWalletFromId(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(" select * from " + DbContract.WalletTable.TABLE_NAME +
+                    " where " + DbContract.WalletTable.COLUMN_NAME_ID + " = " + String.valueOf(id)
+                    , null);
+
+        if (cursor.getCount() == 0)
+            return null;
+
+        cursor.moveToFirst();
+        int wId = cursor.getInt(0);
+        String wName = cursor.getString(1);
+        Currency wCurr = new Currency(cursor.getInt(2));
+        double wBalance = cursor.getDouble(3);
+        double wUsed = cursor.getDouble(4);
+        double wAvailable = cursor.getDouble(5);
+
+        return new Wallet(id, wName, wCurr, wBalance, wUsed);
+
+    }
+
+    public boolean isPreviousWalletEmpty() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(" select * from " + DbContract.PreviousSessionWallet.TABLE_NAME, null);
+        return cursor.getCount() == 0 ? true : false;
+    }
+
+    public int getPreviousWalletId() {
+        getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + DbContract.PreviousSessionWallet.TABLE_NAME, null);
+
+        if (cursor.getCount() == 0)
+            return -1;
+
+        cursor.moveToFirst();
+        int id = cursor.getInt(0);
+        cursor.close();
+        return id;
+    }
+
+    public boolean updatePreviousWalletId(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DbContract.PreviousSessionWallet.COLUMN_NAME_WALLET_ID, id);
+
+        long res = 0;
+        if (isPreviousWalletEmpty()) {
+            res = db.insert(DbContract.PreviousSessionWallet.TABLE_NAME, null, cv);
+        } else {
+            res = db.update(DbContract.PreviousSessionWallet.TABLE_NAME, cv
+                    , DbContract.PreviousSessionWallet.COLUMN_NAME_ID + " = 0"
+                    , null);
+        }
+        return res == 0 ? false : true;
     }
 
 }

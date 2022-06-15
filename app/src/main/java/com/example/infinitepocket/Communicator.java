@@ -1,7 +1,9 @@
 package com.example.infinitepocket;
 
+import android.content.Context;
 import android.graphics.Color;
 
+import com.example.infinitepocket.database.DatabaseHelper;
 import com.example.infinitepocket.interfaces.Notifiable;
 import com.example.infinitepocket.interfaces.Observable;
 import com.example.infinitepocket.modelobjects.Category;
@@ -10,6 +12,7 @@ import com.example.infinitepocket.modelobjects.Wallet;
 import com.example.infinitepocket.utilities.CustomizedToast;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import kotlin.jvm.internal.PropertyReference0Impl;
@@ -19,7 +22,9 @@ import kotlin.jvm.internal.PropertyReference0Impl;
 // this class handles all the communication between every other classes
 public final class Communicator{
     private static Communicator instance;
-    private Communicator() {}
+
+    private Communicator() {
+    }
 
     public static Communicator getInstance() {
         if (instance == null)
@@ -125,7 +130,7 @@ public final class Communicator{
         else
             getCurrentWallet()
                     .beginEdit()
-                    .addToUsed(unchangedTransaction.getAmount())
+                    .addToUsed(-unchangedTransaction.getAmount())
                     .commitEdit();
 
         // add new transaction

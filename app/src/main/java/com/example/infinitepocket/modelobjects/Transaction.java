@@ -161,6 +161,6 @@ public class Transaction extends EditableBase<Transaction> implements Cloneable{
 
     @Override
     protected Transaction clone() {
-        return new Transaction(id, new Category(category.getId()), note, date, wallet);
+        return new Transaction(id, amount, new Category(category.getId()), note, date, wallet);
     }
 }

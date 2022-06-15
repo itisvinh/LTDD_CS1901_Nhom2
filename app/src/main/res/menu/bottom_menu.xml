@@ -5,14 +5,14 @@
     app:cnb_unselectedColor="#12d4">
     <item
         android:id="@+id/menu_item_wallet"
-        android:icon="@drawable/ic_menu_wallet"
+        android:icon="@drawable/ic_baseline_account_balance_24"
         android:title="WALLET"
         app:cnb_iconColor="#9b5de5"
         app:cnb_textColor="#553280"
         />
     <item
         android:id="@+id/menu_item_reports"
-        android:icon="@drawable/ic_menu_wallet"
+        android:icon="@drawable/ic_baseline_pie_chart_24"
         android:title="REPORTS"
         app:cnb_iconColor="#B39E12"
         app:cnb_backgroundColor="#3BFEE440"
@@ -27,7 +27,7 @@
 <!--        app:cnb_textColor="#25529A"/>-->
     <item
         android:id="@+id/menu_item_about"
-        android:icon="@drawable/ic_menu_wallet"
+        android:icon="@drawable/ic_baseline_info_24"
         android:title="ABOUT"
         app:cnb_iconColor="#ff006e"
         app:cnb_textColor="#BD0454"

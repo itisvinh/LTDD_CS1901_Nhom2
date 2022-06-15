@@ -64,6 +64,31 @@ public class WalletFragment extends Fragment {
         communicator.addOnCreatedTransactionObservables( transaction -> {
             addNewTransactionCard(transaction);
         });
+
+        communicator.addOnChangedCurrentTransactionObserver( transaction -> {
+            for (int i = 0; i < root.getChildCount(); i++) {
+                View child = root.getChildAt(i);
+                TextView textView_id = child.findViewById(R.id.trans_item_id);
+                Transaction lastTrans = communicator.getLastTransaction();
+
+                int trans_id = Integer.parseInt(textView_id.getText().toString());
+                if (trans_id == lastTrans.getId()) {
+                    TextView cat = child.findViewById(R.id.trans_item_category);
+                    TextView details = child.findViewById(R.id.trans_item_details);
+                    TextView price = child.findViewById(R.id.trans_item_amount);
+                    // icon
+                    cat.setText(lastTrans.getCategory().getFormattedName());
+                    details.setText(lastTrans.getNote());
+                    if (lastTrans.getCategory().getId() == Category.INCOME) {
+                        price.setText("+" + lastTrans.getAmount());
+                        price.setTextColor(Color.rgb(12, 200, 12));
+                    } else {
+                        price.setText("-" + lastTrans.getAmount());
+                        price.setTextColor(Color.rgb(200, 12, 12));
+                    }
+                }
+            }
+        });
     }
 
     private void addNewTransactionCard(Transaction transaction) {
@@ -100,6 +125,7 @@ public class WalletFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
 
         root.addView(child);
     }

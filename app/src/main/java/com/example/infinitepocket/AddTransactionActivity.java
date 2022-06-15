@@ -127,6 +127,7 @@ public class AddTransactionActivity extends AppCompatActivity {
 
                     if (res) {
                         communicator.setLastTransaction(transaction);
+                        new DatabaseHelper(getApplicationContext()).updateWallet(communicator.getCurrentWallet());
                         CustomizedToast.show(this, "New transaction is created");
                     } else
                         CustomizedToast.show(this, "Failed to create new transaction");
@@ -141,9 +142,11 @@ public class AddTransactionActivity extends AppCompatActivity {
                                                 .setDate(transaction.getDate())
                                                         .setAmount(transaction.getAmount())
                                                                 .setNote(transaction.getNote())
-                                                                        .commitEdit();
+                                                                        .setId(transaction.getId())
+                                                                                .commitEdit();
 
                         communicator.setTransactionAddedRole(TransactionAddedRole.ROLE_CREATE);
+                        new DatabaseHelper(getApplicationContext()).updateWallet(communicator.getCurrentWallet());
                         CustomizedToast.show(this, "Transaction is updated");
                     } else
                         CustomizedToast.show(this, "Failed to update transaction");

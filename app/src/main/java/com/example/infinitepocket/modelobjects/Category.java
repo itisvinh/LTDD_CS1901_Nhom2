@@ -112,9 +112,9 @@ public final class Category{
         Field[] fields = new Category().getClass().getFields();
 
         try {
-            for (int i = 0; i <= Category.MAX_ID; i++) {
-                if (fields[i].getName().equalsIgnoreCase(name))
-                    return (Integer) fields[i].get(new Category());
+            for (Field field : fields) {
+                if (field.getName().equalsIgnoreCase(name))
+                    return (Integer) field.get(new Category());
             }
         } catch (Exception e) {}
         return -1;

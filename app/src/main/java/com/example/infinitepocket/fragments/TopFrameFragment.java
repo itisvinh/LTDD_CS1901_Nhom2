@@ -109,6 +109,7 @@ public class TopFrameFragment extends Fragment {
         });
         ini(view);
         setListeners();
+        displayAll.performClick();
     }
 
     @Override
