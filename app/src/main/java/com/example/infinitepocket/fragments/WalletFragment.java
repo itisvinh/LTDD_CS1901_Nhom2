@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,12 @@ import com.example.infinitepocket.modelobjects.Category;
 import com.example.infinitepocket.modelobjects.Transaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -99,6 +105,7 @@ public class WalletFragment extends Fragment {
         TextView amount = child.findViewById(R.id.trans_item_amount);
         TextView id = child.findViewById(R.id.trans_item_id);
 
+
         civ.setImageDrawable(getResources().getDrawable(transaction.getCategory().getIconId()));
         cat.setText(transaction.getCategory().getFormattedName());
         details.setText(transaction.getNote());
@@ -142,5 +149,16 @@ public class WalletFragment extends Fragment {
             Intent intent = new Intent(getActivity().getApplicationContext(), AddTransactionActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void SD() {
+        Communicator communicator = Communicator.getInstance();
+        HashMap<Integer, Double> map = new DatabaseHelper(getActivity().getApplicationContext())
+                                        .getTop3Category(communicator.getCurrentWallet().getId());
+
+        List<Map.Entry<Integer, Double> > sortedList = new LinkedList<Map.Entry<Integer, Double> >(map.entrySet());
+        Collections.sort(sortedList, (i1, i2) -> i1.getValue().compareTo(i2.getValue()));
+
+        // duyet qua list sortedList theo thu tu la top 1, top2, top 3
     }
 }

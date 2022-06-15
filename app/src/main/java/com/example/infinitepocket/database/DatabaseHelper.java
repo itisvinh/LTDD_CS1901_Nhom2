@@ -19,7 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -289,5 +291,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return res == 0 ? false : true;
     }
+
+
+    public HashMap<Integer, Double> getTop3Category(int walletId) {
+        HashMap<Integer, Double> map = new HashMap<>(3);
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(" select categoryId, sum(amount) " +
+                " from transactions " +
+                " where walletId = " + String.valueOf(walletId) +
+                " group by categoryId " +
+                " order by sum(amount) " +
+                " desc ", null);
+
+        if (cursor.getCount() == 0)
+            return null;
+
+        cursor.moveToFirst();
+        do {
+            int cat_id = cursor.getInt(0);
+            double sum_val = cursor.getDouble(1);
+            map.put(cat_id, sum_val);
+        } while (cursor.moveToNext());
+
+        return map.size() > 0 ? map : null;
+    }
+
 
 }

@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/frag_wallet_root"
-        android:orientation="vertical"/>
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_trans"
