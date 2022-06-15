@@ -53,7 +53,7 @@
                 android:layout_marginTop="20dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/category_selector_layout"
+                    android:id="@+id/trans_category_selector_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -69,12 +69,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/trans_adder_icon"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_menu_wallet"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    app:civ_border_width="1dp"
-                    android:layout_gravity="center"/>
+                    android:src="@drawable/trans_bg_circle" />
             </LinearLayout>
 
             <TextView

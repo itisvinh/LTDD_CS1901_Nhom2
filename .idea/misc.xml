@@ -24,8 +24,12 @@
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_account_balance_wallet_24.xml" value="0.2285" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.1485" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1725" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_fastfood_24.xml" value="0.1" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_library_books_24.xml" value="0.1" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_playlist_add_24.xml" value="0.199" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_baseline_shopping_bag_24.xml" value="0.1" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_drop_down_filled.xml" value="0.1475" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_icon_app.xml" value="0.137" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/ic_picture1.xml" value="0.1915" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/icon_bg_circle.xml" value="0.1695" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/inner_curved_shape.xml" value="0.1475" />
@@ -33,6 +37,7 @@
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/pound.xml" value="0.1185" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/round_corner.xml" value="0.2555" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/saca.xml" value="0.1915" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/trans_bg_circle.xml" value="0.1" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/transaction_item_bg.xml" value="0.2555" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/won.xml" value="0.1185" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/drawable/yen.xml" value="0.1185" />
@@ -41,6 +46,7 @@
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/currency_item.xml" value="0.22530996152201796" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/drop_down_item.xml" value="0.4" />
+        <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_about.xml" value="0.2" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_planning.xml" value="0.1" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_reports.xml" value="0.1" />
         <entry key="..\:/Mobile Projects/LTDD_CS1901_Nhom2/app/src/main/res/layout/fragment_tab_item_content.xml" value="0.20512820512820512" />

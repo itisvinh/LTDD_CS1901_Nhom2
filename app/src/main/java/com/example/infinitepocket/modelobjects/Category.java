@@ -60,8 +60,12 @@ public final class Category{
 
     public static Integer getIconId(int category_id) {
         switch (category_id) {
+            case FOOD:
+                return R.drawable.ic_baseline_fastfood_24;
+            case SHOPPING:
+                return R.drawable.ic_baseline_shopping_bag_24;
             default:
-                return R.drawable.aus_dollar;
+                return R.drawable.trans_bg_circle;
         }
     }
 

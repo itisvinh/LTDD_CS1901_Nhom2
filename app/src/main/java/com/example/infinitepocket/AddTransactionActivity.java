@@ -20,20 +20,25 @@ import com.example.infinitepocket.modelobjects.Event;
 import com.example.infinitepocket.modelobjects.Transaction;
 import com.example.infinitepocket.utilities.CustomizedToast;
 import com.example.infinitepocket.utilities.SimpleDateHelper;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AddTransactionActivity extends AppCompatActivity {
     View back_transaction;
     TextView create_transaction;
     EditText transaction_date;
     AutoCompleteTextView transaction_category_selector;
+    TextInputLayout transaction_category_selector_layout;
     //AutoCompleteTextView transaction_event_selector;
     EditText transaction_price;
     EditText transaction_details;
+    CircleImageView trans_icon;
 
     Calendar globalCalendar = Calendar.getInstance();
     Communicator communicator = Communicator.getInstance();
@@ -74,6 +79,8 @@ public class AddTransactionActivity extends AppCompatActivity {
         //transaction_event_selector = findViewById(R.id.trans_event_selector);
         transaction_price = findViewById(R.id.trans_price);
         transaction_details = findViewById(R.id.trans_details);
+        trans_icon = findViewById(R.id.trans_adder_icon);
+        transaction_category_selector_layout = findViewById(R.id.trans_category_selector_layout);
     }
 
     private void iniViews() {
@@ -154,6 +161,19 @@ public class AddTransactionActivity extends AppCompatActivity {
 
                 finish();
             }
+        });
+
+        transaction_category_selector.setOnItemClickListener((parent, view, position, id) -> {
+            String tmpT = transaction_category_selector.getText().toString().trim();
+            String[] tokens = tmpT.split("\\s+");
+            StringBuilder res = new StringBuilder("");
+            for (int i = 0; i < tokens.length; i++) {
+                if (i != 0)
+                    res.append("_");
+                res.append(tokens[i]);
+            }
+            int catId = Category.getIdByName(res.toString());
+            transaction_category_selector_layout.setStartIconDrawable(Category.getIconId(catId));
         });
     }
 
