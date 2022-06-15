@@ -27,7 +27,9 @@ import com.example.infinitepocket.CreateWalletActivity;
 import com.example.infinitepocket.CreateWalletMode;
 import com.example.infinitepocket.MainActivity;
 import com.example.infinitepocket.R;
+import com.example.infinitepocket.TransactionAddedRole;
 import com.example.infinitepocket.modelobjects.Category;
+import com.example.infinitepocket.modelobjects.Transaction;
 import com.example.infinitepocket.viewmodels.MainViewModel;
 
 import org.w3c.dom.Text;
@@ -101,6 +103,9 @@ public class TopFrameFragment extends Fragment {
             wallet_balance.setText(String.valueOf(wallet.getBalance()));
             wallet_spending.setText(String.valueOf(wallet.getUsed()));
             wallet_available.setText(String.valueOf(wallet.getAvailable()));
+        });
+        communicator.addOnChangedCurrentTransactionObserver( unchangedTransaction -> {
+
         });
         ini(view);
         setListeners();

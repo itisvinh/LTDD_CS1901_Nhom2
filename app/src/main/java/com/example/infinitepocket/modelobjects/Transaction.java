@@ -3,9 +3,15 @@ package com.example.infinitepocket.modelobjects;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.util.Date;
+import com.example.infinitepocket.Communicator;
+import com.example.infinitepocket.interfaces.EditableBase;
+import com.example.infinitepocket.interfaces.Observable;
 
-public class Transaction {
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+
+public class Transaction extends EditableBase<Transaction> implements Cloneable{
     @NonNull
     private int id;
     @NonNull
@@ -18,9 +24,31 @@ public class Transaction {
     private Date date;
     @NonNull
     private Wallet wallet;
-//    @Nullable
+
+    private static final String SET_AMOUNT = "set-amount";
+    private static final String SET_CATEGORY = "set-category";
+    private static final String SET_NOTE = "set-note";
+    private static final String SET_DATE = "set-date";
+
+    private static Observable<Transaction> observable;
+
+    static {
+        observable = Communicator.getInstance()::getNotifiedFromTransactionChange;
+    }
+
+    //    @Nullable
 //    private Event event;
     public Transaction(double amount, Category category, String note, Date date, Wallet wallet/*, Event event*/) {
+        this.amount = amount;
+        this.category = category;
+        this.note = note;
+        this.date = date;
+        this.wallet = wallet;
+        //this.event = event;
+    }
+
+    public Transaction(int id, double amount, Category category, String note, Date date, Wallet wallet/*, Event event*/) {
+        this.id = id;
         this.amount = amount;
         this.category = category;
         this.note = note;
@@ -33,8 +61,9 @@ public class Transaction {
         return id;
     }
 
-    public void setId(int id) {
+    public Transaction setId(int id) {
         this.id = id;
+        return this;
     }
 
 //    @Nullable
@@ -50,8 +79,9 @@ public class Transaction {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public Transaction setAmount(double amount) {
+        addUnsavedChanges(SET_AMOUNT, amount);
+        return this;
     }
 
     @NonNull
@@ -59,8 +89,9 @@ public class Transaction {
         return category;
     }
 
-    public void setCategory(@NonNull Category category) {
-        this.category = category;
+    public Transaction setCategory(@NonNull Category category) {
+        addUnsavedChanges(SET_CATEGORY, category);
+        return this;
     }
 
     @NonNull
@@ -68,8 +99,9 @@ public class Transaction {
         return note;
     }
 
-    public void setNote(@NonNull String note) {
-        this.note = note;
+    public Transaction setNote(@NonNull String note) {
+        addUnsavedChanges(SET_NOTE, note);
+        return this;
     }
 
     @NonNull
@@ -77,8 +109,9 @@ public class Transaction {
         return date;
     }
 
-    public void setDate(@NonNull Date date) {
-        this.date = date;
+    public Transaction setDate(@NonNull Date date) {
+        addUnsavedChanges(SET_DATE, date);
+        return this;
     }
 
     @NonNull
@@ -86,7 +119,48 @@ public class Transaction {
         return wallet;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    @Override
+    protected Transaction getInstance() {
+        return this;
+    }
+
+    @Override
+    public void commitEdit() {
+        super.commitEdit();
+        boolean changeDetected = false;
+        Transaction clonedTrans = this.clone();
+
+        Map.Entry eAmount = getUnsavedEntryFromKey(SET_AMOUNT);
+        if (eAmount != null) {
+            amount = Double.parseDouble(eAmount.getValue().toString());
+            changeDetected = true;
+        }
+
+        Map.Entry eCategory = getUnsavedEntryFromKey(SET_CATEGORY);
+        if (eCategory != null) {
+            category = (Category) eCategory.getValue();
+            changeDetected = true;
+        }
+
+        Map.Entry eNote = getUnsavedEntryFromKey(SET_NOTE);
+        if (eNote != null) {
+            note = (String) eNote.getValue();
+            changeDetected = true;
+        }
+
+        Map.Entry eDate = getUnsavedEntryFromKey(SET_DATE);
+        if (eDate != null) {
+            date = (Date) eDate.getValue();
+            changeDetected = true;
+        }
+
+        if (changeDetected) {
+            observable.fire(clonedTrans);
+        }
+    }
+
+    @Override
+    protected Transaction clone() {
+        return new Transaction(id, new Category(category.getId()), note, date, wallet);
     }
 }

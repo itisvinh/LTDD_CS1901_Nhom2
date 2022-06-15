@@ -12,12 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.infinitepocket.adapters.DropDownMenuAdapter;
+import com.example.infinitepocket.database.DatabaseHelper;
 import com.example.infinitepocket.interfaces.Notifiable;
 import com.example.infinitepocket.items.DropDownItem;
 import com.example.infinitepocket.modelobjects.Category;
 import com.example.infinitepocket.modelobjects.Event;
 import com.example.infinitepocket.modelobjects.Transaction;
 import com.example.infinitepocket.utilities.CustomizedToast;
+import com.example.infinitepocket.utilities.SimpleDateHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,12 +45,21 @@ public class AddTransactionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_transaction);
         getSupportActionBar().hide();
         ini();
-        iniViews();
         setListeners();
-        setCommunicatorParams();
+        checkMode();
+        iniViews();
     }
 
-    private void setCommunicatorParams() {
+    private void checkMode() {
+        if (communicator.getTransactionAddedRole() == TransactionAddedRole.ROLE_EDIT) {
+            create_transaction.setText("EDIT");
+            Transaction transaction = communicator.getLastTransaction();
+            transaction_category_selector.setText(transaction.getCategory().getFormattedName());
+            // set cat icon here
+            transaction_date.setText(SimpleDateHelper.simpleDateFormat(transaction.getDate()));
+            transaction_price.setText(String.valueOf(transaction.getAmount()));
+            transaction_details.setText(transaction.getNote());
+        }
     }
 
     public AddTransactionActivity() {
@@ -90,6 +101,7 @@ public class AddTransactionActivity extends AppCompatActivity {
 
     }
 
+    @Deprecated
     private String formatAsString(Calendar calendar) {
         return calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
     }
@@ -108,16 +120,42 @@ public class AddTransactionActivity extends AppCompatActivity {
 
         create_transaction.setOnClickListener( view -> {
             Transaction transaction = tryCreatingTransaction();
+
             if (transaction != null) {
-                communicator.setLastTransaction(transaction);
-                CustomizedToast.show(this, "New transaction is created");
+                if (communicator.getTransactionAddedRole() == TransactionAddedRole.ROLE_CREATE) {
+                    boolean res = new DatabaseHelper(getApplicationContext()).addNewTransaction(transaction);
+
+                    if (res) {
+                        communicator.setLastTransaction(transaction);
+                        CustomizedToast.show(this, "New transaction is created");
+                    } else
+                        CustomizedToast.show(this, "Failed to create new transaction");
+
+                } else if (communicator.getTransactionAddedRole() == TransactionAddedRole.ROLE_EDIT) {
+                    transaction.setId(communicator.getLastTransaction().getId());
+                    boolean res = new DatabaseHelper(getApplicationContext()).updateTransaction(transaction);
+
+                    if (res) {
+                        communicator.getLastTransaction().beginEdit()
+                                        .setCategory(transaction.getCategory())
+                                                .setDate(transaction.getDate())
+                                                        .setAmount(transaction.getAmount())
+                                                                .setNote(transaction.getNote())
+                                                                        .commitEdit();
+
+                        communicator.setTransactionAddedRole(TransactionAddedRole.ROLE_CREATE);
+                        CustomizedToast.show(this, "Transaction is updated");
+                    } else
+                        CustomizedToast.show(this, "Failed to update transaction");
+                }
+
                 finish();
             }
         });
     }
 
     private void updateSelectedDate() {
-        transaction_date.setText(formatAsString(globalCalendar));
+        transaction_date.setText(SimpleDateHelper.simpleDateFormat(globalCalendar.getTime()));
     }
     private void displayPopupDatePicker() {
         Calendar calendar = Calendar.getInstance();
@@ -164,15 +202,15 @@ public class AddTransactionActivity extends AppCompatActivity {
         return category;
     }
 
-    private Date tryGettingDate() {
-        String date_txt = transaction_date.getText().toString().trim();
-        String[] tokens = date_txt.split("-");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, Integer.parseInt(tokens[2]));
-        calendar.set(Calendar.MONTH, Integer.parseInt(tokens[1]));
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(tokens[0]));
-        return calendar.getTime();
-    }
+//    private Date tryGettingDate() {
+//        String date_txt = transaction_date.getText().toString().trim();
+//        String[] tokens = date_txt.split("-");
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.YEAR, Integer.parseInt(tokens[2]));
+//        calendar.set(Calendar.MONTH, Integer.parseInt(tokens[1]));
+//        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(tokens[0]));
+//        return calendar.getTime();
+//    }
 
     private String tryGettingDetails() {
         return transaction_details.getText().toString().trim();
@@ -188,7 +226,8 @@ public class AddTransactionActivity extends AppCompatActivity {
         Double amount = tryGettingPrice();
         Category category = tryGettingCategory();
         String note = tryGettingDetails();
-        Date date = tryGettingDate();
+        //Date date = tryGettingDate();
+        Date date = SimpleDateHelper.dateFromSimpleFormat(transaction_date.getText().toString());
         //Event event = tryGettingEvent();
 
         if (amount == null || category == null || date == null)

@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.example.infinitepocket.AddTransactionActivity;
 import com.example.infinitepocket.Communicator;
 import com.example.infinitepocket.R;
+import com.example.infinitepocket.TransactionAddedRole;
+import com.example.infinitepocket.database.DatabaseHelper;
 import com.example.infinitepocket.modelobjects.Category;
 import com.example.infinitepocket.modelobjects.Transaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -84,11 +86,24 @@ public class WalletFragment extends Fragment {
             amount.setText("+" + String.valueOf(transaction.getAmount()));
             amount.setTextColor(Color.rgb(10,200,10));
         }
+        id.setText(String.valueOf(transaction.getId()));
 
-        id.setText(transaction.getId());
+        // listeners
+        child.setOnClickListener( view -> {
+            int transId = Integer.parseInt(((TextView) view.findViewById(R.id.trans_item_id)).getText().toString());
+            Transaction tmpTrans = new DatabaseHelper(getActivity().getApplicationContext()).getTransactionById(transId);
+
+            if (tmpTrans != null) {
+                communicator.setLastTransactionNoFire(tmpTrans);
+                communicator.setTransactionAddedRole(TransactionAddedRole.ROLE_EDIT);
+                Intent intent = new Intent(getActivity(), AddTransactionActivity.class);
+                startActivity(intent);
+            }
+        });
 
         root.addView(child);
     }
+
 
     private void ini(View view) {
         root = view.findViewById(R.id.frag_wallet_root);
@@ -97,6 +112,7 @@ public class WalletFragment extends Fragment {
 
     private void setListeners() {
         add_transaction.setOnClickListener( view -> {
+            communicator.setTransactionAddedRole(TransactionAddedRole.ROLE_CREATE);
             Intent intent = new Intent(getActivity().getApplicationContext(), AddTransactionActivity.class);
             startActivity(intent);
         });
